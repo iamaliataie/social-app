@@ -2,6 +2,7 @@
 import HelloWorld from './components/HelloWorld.vue'
 import { onMounted } from 'vue';
 import { useUserStore } from './stores/user'
+import axios from 'axios';
 
 const userStore = useUserStore();
 
@@ -10,9 +11,9 @@ onMounted(() => {
   userStore.initStore();
   if(userStore.user.access){}
   else {console.log('no user found');}
-  fetch('http://127.0.0.1:8000/')
+  axios.get('')
   .then(res => {
-    console.log(res);
+    console.log(res.data);
   })
   .catch(error => {
     console.log(error);
