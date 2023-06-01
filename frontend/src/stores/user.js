@@ -1,5 +1,6 @@
 import { reactive } from 'vue'
 import { defineStore } from 'pinia'
+import axios from 'axios'
 
 export const useUserStore = defineStore('user', () => {
   const user = reactive({
@@ -48,26 +49,25 @@ export const useUserStore = defineStore('user', () => {
     user.refresh= null;
     user.isAuthenticated= false;
 
-    localStorage.setItem('user.id', '');
-    localStorage.setItem('user.name', '');
-    localStorage.setItem('user.email', '');
-    localStorage.setItem('user.access', '');
-    localStorage.setItem('user.refresh', '');
+    localStorage.removeItem('user.id');
+    localStorage.removeItem('user.name');
+    localStorage.removeItem('user.email');
+    localStorage.removeItem('user.access');
+    localStorage.removeItem('user.refresh');
   }
 
   const refreshToken = () => {
-    console.log('refreshing token!');
-    fetch('api/refresh/', {
-      refresh: user.refresh
+    axios.post('/api/refresh/', {
+        refresh: user.refresh
     })
-    .then(response => {
-      user.access = response.data.access;
-      localStorage.setItem('user.access', user.access);
-    })
-    .catch(error => {
-      console.log('token refresh error: ', error);
-      removeToken();
-    })
+        .then((response) => {
+            user.access = response.data.access
+            localStorage.setItem('user.access', response.data.access)
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.access
+        })
+        .catch((error) => {
+            removeToken();
+        })
   }
 
   return { user, initStore, setToken, setUserInfo, removeToken }
