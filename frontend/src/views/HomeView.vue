@@ -1,5 +1,16 @@
+<script setup>
+import FeedList from '../components/FeedList.vue'
+
+import FriendSuggestions from '@/components/FriendSuggestions.vue'
+</script>
+
 <template>
-  <div class="about">
-    <h1 class="bg-red-500">This is an homepage</h1>
+  <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
+    <div class="md:col-span-3">
+      <FeedList />
+    </div>
+    <div class="md:col-span-2">
+      <FriendSuggestions />
+    </div>
   </div>
 </template>

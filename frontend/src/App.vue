@@ -10,9 +10,11 @@ onMounted(() => {
   
   userStore.initStore();
   if(userStore.user.access){
-    axios.defaults.headers.common['Authorization'] = 'Bearer ' + userStore.user.access
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + userStore.user.access;
   }
-  else {console.log('not logged in');}
+  else {
+    axios.defaults.headers.common['Authorization'] = '';
+  }
   
 })
 

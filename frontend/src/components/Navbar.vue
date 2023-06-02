@@ -11,10 +11,10 @@ const logout = () => {
 
 </script>
 <template>
-    <div class="bg-white py-10">
-        <div class="container flex flex-col md:flex-row items-center justify-between">
+    <div class="bg-white py-6">
+        <div class="container flex flex-col md:flex-row items-center justify-between lg:max-w-6xl">
       <div>
-            <h1 class="text-4xl font-bold">Social</h1>
+            <RouterLink :to="{name: 'home'}" class="text-4xl font-bold">Social</RouterLink>
         </div>
         <ul 
         v-if="userStore.user.isAuthenticated"
@@ -30,8 +30,9 @@ const logout = () => {
         </ul>
         <div 
         v-if="userStore.user.isAuthenticated"
-        class="hidden md:flex rounded-full overflow-hidden">
-            <img src="../assets/images/self2.jpg" alt="" class="w-28">
+        class="hidden md:flex flex-col space-y-3 items-center">
+            <img src="../assets/images/self2.jpg" alt="" class="w-20 rounded-full">
+            <h1>{{ userStore.user.name }}</h1>
         </div>
         <div 
         v-else
@@ -43,7 +44,7 @@ const logout = () => {
                 Login
             </RouterLink>
             <RouterLink 
-                :to="{name: 'login'}" 
+                :to="{name: 'signup'}" 
                 class="px-3 py-2 rounded-md bg-purple-500 "
             >
                 Signup

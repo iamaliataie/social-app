@@ -1,12 +1,12 @@
 <script setup>
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import{useRouter} from 'vue-router'
 import axios from 'axios';
 import { useUserStore } from '../stores/user';
 
 const router = useRouter();
 const userStore = useUserStore();
-
+const errorMessage = ref('');
 
 const form = reactive({
     email: '',
@@ -14,6 +14,12 @@ const form = reactive({
 })
 
 const submitForm = async() => {
+    errorMessage.value = '';
+    if (form.email === '' || form.password === '') {
+        errorMessage.value = 'Fields cannot be empty';
+        return
+    }
+
     await axios.post('api/login/', form)
     .then(res => {
         userStore.setToken(res.data)
@@ -26,7 +32,9 @@ const submitForm = async() => {
         })
         .catch(error => console.log('authenticated user error: ', error))
     })
-    .catch(error => console.log('login error: ', error))
+    .catch(error => {
+        errorMessage.value = 'Incorrect credentials'
+    })
 }
 
 </script>
@@ -56,6 +64,11 @@ const submitForm = async() => {
                         v-model="form.password" 
                         class="bg-gray-100 p-4 rounded-md"
                         placeholder="password">
+                    </div>
+                    <div 
+                    v-if="errorMessage"
+                    class="text-sm text-red-500 mb-4">
+                        <span>{{ errorMessage }}</span>
                     </div>
                     <button type="submit" class="w-fit p-3 bg-purple-500 rounded-md text-white">Login</button>
                 </form>
