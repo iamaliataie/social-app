@@ -1,5 +1,13 @@
+<script setup>
+import { useUserStore } from "../stores/user";
+
+const userStore = useUserStore();
+
+
+</script>
 <template>
-    <div class="bg-white p-6 rounded-xl">
+    <div class="bg-white p-6 rounded-md">
+        <div v-for="(post, index) in userStore.posts" :key="index">{{ post }}</div>
         <div class="flex flex-col space-y-6">
         <div class="flex flex-row items-center justify-between">
             <div class="flex items-center gap-4">

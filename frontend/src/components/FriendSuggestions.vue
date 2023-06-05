@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white flex flex-col space-y-4 p-4 rounded-xl">
+    <div class="bg-white flex flex-col space-y-4 p-4 rounded-md">
         <h2 class="text-xl">Friend Suggestions</h2>
         <div class="flex items-cener justify-between">
             <div class="flex items-center space-x-4">

@@ -1,4 +1,4 @@
-import { reactive } from 'vue'
+import { reactive,ref } from 'vue'
 import { defineStore } from 'pinia'
 import axios from 'axios'
 
@@ -11,6 +11,7 @@ export const useUserStore = defineStore('user', () => {
     refresh: null,
     isAuthenticated: false
   })
+  const posts = ref([])
 
   const initStore = () => {
     if (localStorage.getItem('user.access')) {
@@ -70,5 +71,5 @@ export const useUserStore = defineStore('user', () => {
         })
   }
 
-  return { user, initStore, setToken, setUserInfo, removeToken }
+  return { user, initStore, setToken, setUserInfo, removeToken, posts }
 })
