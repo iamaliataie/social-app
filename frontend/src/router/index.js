@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import PostDetailView from '../views/PostDetailView.vue'
 import ProfileView from '../views/ProfileView.vue'
 import SearchView from '../views/SearchView.vue'
 import ChatView from '../views/ChatView.vue'
@@ -13,6 +14,11 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView
+    },
+    {
+      path: '/:id',
+      name: 'detail',
+      component: PostDetailView
     },
     {
       path: '/profile',

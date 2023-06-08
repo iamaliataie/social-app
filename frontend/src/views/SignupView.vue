@@ -2,10 +2,10 @@
 import { reactive, ref } from 'vue';
 import{useRouter} from 'vue-router'
 import axios from 'axios';
-import { useUserStore } from '../stores/user';
+import { useToastStore } from '../stores/toast';
 
 const router = useRouter();
-const userStore = useUserStore();
+const toastStore = useToastStore();
 const errorMessage = ref('');
 
 const form = reactive({
@@ -45,13 +45,16 @@ const submitForm = async() => {
     await axios.post('api/signup/', form)
     .then(res => {
         if (!res.data.status) {
-            errorMessage.value = res.data.message
+            toastStore.showToast(res.data.message, 'bg-red-500');
         }
         else{
+            toastStore.showToast('Registration was succussfull.', 'bg-green-400');
             router.push({name: 'login'})
         }
     })
-    .catch(error => console.log('signup error: ', error))
+    .catch(error => {
+        toastStore.showToast(error.message, 'bg-red-500');
+    })
 }
 
 </script>

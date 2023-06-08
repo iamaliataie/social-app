@@ -1,14 +1,22 @@
 <script setup>
 import { ref } from 'vue';
+import axios from 'axios';
 import { useUserStore } from '../stores/user';
-const userStore = useUserStore();
+import { useToastStore } from '../stores/toast';
 
-const emit = defineEmits(['postSubmit'])
+const userStore = useUserStore();
+const toastStore = useToastStore();
 
 const body = ref('')
 
 const handleSubmit = () => {
-    userStore.posts.unshift(body.value)
+    axios.post('api/posts/post_create/', {body: body.value})
+    .then(res => {
+        userStore.posts.unshift(res.data)
+    })
+    .catch(error => {
+        toastStore.showToast(error.message, 'bg-red-500');
+    })
 }
 
 </script>

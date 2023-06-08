@@ -3,6 +3,7 @@ import { onMounted } from 'vue';
 import { useUserStore } from './stores/user'
 import axios from 'axios';
 import Navbar from './components/Navbar.vue';
+import Toast from './components/Toast.vue';
 
 const userStore = useUserStore();
 
@@ -26,5 +27,6 @@ onMounted(() => {
     <div class="container my-10">
       <RouterView />
     </div>
+    <Toast />
   </div>
 </template>
