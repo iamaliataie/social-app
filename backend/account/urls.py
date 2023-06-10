@@ -23,4 +23,24 @@ urlpatterns = [
         api.authenticated_user,
         name='authenticated_user'
     ),
+    path(
+        'profile/<uuid:user_id>/',
+        api.profile,
+        name='profile'
+    ),
+    path(
+        'profile/<uuid:user_id>/friends/',
+        api.friends,
+        name='friends'
+    ),
+    path(
+        'friendship_create/<uuid:user_id>/',
+        api.friendship_create,
+        name='friendship_create'
+    ),
+    path(
+        'friendship_handle/<uuid:user_id>/<str:status>/',
+        api.friendship_handle,
+        name='friendship_handle'
+    ),
 ]

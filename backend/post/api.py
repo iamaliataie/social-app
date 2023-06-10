@@ -6,7 +6,11 @@ from .serializers import PostSerializer, CommentSerializer
 
 @api_view(['GET'])
 def post_list(request):
-    posts = Post.objects.all()
+    ids = [request.user.id]
+    for friend in request.user.friends.all():
+        ids.append(friend.id)
+    
+    posts = Post.objects.filter(created_by__in=list(ids))
     serializer = PostSerializer(posts, many=True)
     
     return JsonResponse(serializer.data, safe=False)

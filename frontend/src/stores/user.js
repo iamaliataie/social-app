@@ -12,6 +12,7 @@ export const useUserStore = defineStore('user', () => {
     isAuthenticated: false
   })
   const posts = ref([])
+  const profilePosts = ref([])
 
   const initStore = () => {
     if (localStorage.getItem('user.access')) {
@@ -71,5 +72,5 @@ export const useUserStore = defineStore('user', () => {
         })
   }
 
-  return { user, initStore, setToken, setUserInfo, removeToken, posts }
+  return { user, initStore, setToken, setUserInfo, removeToken, posts, profilePosts }
 })

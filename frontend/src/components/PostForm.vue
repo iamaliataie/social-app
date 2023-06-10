@@ -12,7 +12,9 @@ const body = ref('')
 const handleSubmit = () => {
     axios.post('api/posts/post_create/', {body: body.value})
     .then(res => {
-        userStore.posts.unshift(res.data)
+        userStore.posts.unshift(res.data);
+        userStore.profilePosts.unshift(res.data);
+        body.value = ''
     })
     .catch(error => {
         toastStore.showToast(error.message, 'bg-red-500');
@@ -24,7 +26,7 @@ const handleSubmit = () => {
 <template>
     <div class="bg-white p-6 rounded-md">
         <form @submit.prevent="handleSubmit" class="flex flex-col space-y-4">
-        <textarea rows="5" v-model="body" class="w-full resize-none bg-gray-100 p-4 rounded-md" placeholder="What are you thinking about, today?"></textarea>
+        <textarea rows="5" v-model="body" class="w-full resize-none bg-gray-100 p-4 rounded-md focus:outline-none" placeholder="What are you thinking about, today?"></textarea>
         <div class="flex items-center justify-between">
             <button type="submit" class="bg-purple-500 text-white px-3 py-3 rounded-md">Post</button>
             <input type="file" id="attachment" class="hidden">

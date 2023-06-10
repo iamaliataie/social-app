@@ -20,7 +20,7 @@ const handleLike = (postId) => {
         <div class="flex flex-row items-center justify-between">
             <div class="flex items-center gap-4">
             <img src="../assets/images/self2.jpg" alt="user" class="w-12 rounded-full">
-            <h1 class="text-xl font-semibold">{{ post.created_by.name }}</h1>
+            <RouterLink :to="{name: 'profile', params:{'id': post.created_by.id}}" class="text-xl font-semibold">{{ post.created_by.name }}</RouterLink>
             </div>
             <span>{{ post.created_at_formatted }} ago</span>
         </div>

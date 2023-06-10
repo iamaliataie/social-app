@@ -66,8 +66,9 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'corsheaders',
 
-    'post.apps.PostConfig',
     'account.apps.AccountConfig',
+    'post.apps.PostConfig',
+    'search.apps.SearchConfig',
 ]
 
 MIDDLEWARE = [

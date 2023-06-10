@@ -53,3 +53,22 @@ class User(AbstractBaseUser, PermissionsMixin):
      
     def friends_count(self):
         return self.friends.count()
+    
+
+class FriendshipRequest(models.Model):
+    SENT = 'sent'
+    ACCEPT = 'accepted'
+    
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='request_made')
+    received_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='request_received')
+    created_at = models.DateTimeField(auto_now_add=timezone.now)
+
+    class Meta:
+        ordering = ['-created_at',]
+
+    def __str__(self):
+        return f'{ self.created_by.name } to { self.received_by.name }'
+    
+    def created_at_formatted(self):
+        return timesince.timesince(self.created_at)

@@ -1,5 +1,5 @@
 <script setup>
-import { useRouter } from "vue-router";
+import { RouterLink, useRouter } from "vue-router";
 import { useUserStore } from "../stores/user"
 
 const router = useRouter();
@@ -25,15 +25,15 @@ const logout = () => {
             <router-link :to="{name: 'home'}" class="hidden md:block">Home</router-link>
             <a href="#">Messages</a>
             <a href="#">Notifications</a>
-            <a href="#">Search</a>
+            <RouterLink :to="{name: 'search'}">Search</RouterLink>
             <button @click="logout" class="text-left">Logout</button>
         </ul>
-        <div 
-        v-if="userStore.user.isAuthenticated"
+        <RouterLink :to="{name: 'profile', params:{'id': userStore.user.id}}"
+        v-if="userStore.user.isAuthenticated && userStore.user.id"
         class="hidden md:flex flex-col space-y-3 items-center">
             <img src="../assets/images/self2.jpg" alt="" class="w-20 rounded-full">
             <h1>{{ userStore.user.name }}</h1>
-        </div>
+        </RouterLink>
         <div 
         v-else
         class="flex gap-4 items-center text-white">
