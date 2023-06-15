@@ -9,6 +9,7 @@ from django.utils import timezone, timesince
 class Post(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     body = models.TextField(blank=True, null=True)
+    image = models.ImageField(upload_to='posts/' ,null=True, blank=True)
     likes = models.ManyToManyField(User, blank=True)
     comments = models.ManyToManyField('Comment', blank=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
@@ -22,6 +23,11 @@ class Post(models.Model):
     
     def created_at_formatted(self):
         return timesince.timesince(self.created_at)
+    
+    def get_image(self):
+        if self.image:
+            return f'http://127.0.0.1:8000{self.image.url}'
+        else: return ''
     
 class Comment(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)

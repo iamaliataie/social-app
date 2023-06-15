@@ -44,7 +44,7 @@ onMounted(() => {
                             v-for="comment in post.comments"
                             class="flex flex-col gap-3 border rounded-md p-4">
                                 <div class="flex items-center gap-4">
-                                    <img src="../assets/images/self2.jpg" alt="user" class="rounded-full w-10">
+                                    <img :src="comment.created_by.get_avatar" alt="user" class="rounded-full w-10">
                                     <div class="flex flex-col">
                                         <h2>{{ comment.created_by.name }}</h2>
                                         <small>{{ comment.created_at_formatted }} ago</small>

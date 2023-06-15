@@ -11,7 +11,7 @@ const props = defineProps(['people', 'title', 'handleRequest'])
             <div 
             v-for="user in props.people"
             class="flex flex-col space-y-4 items-center shadow-md border p-2 rounded-md">
-                <img src="../assets/images/self2.jpg" alt="user" class="w-36 rounded-full">
+                <img :src="handleRequest ? user.created_by.get_avatar : user.get_avatar" alt="user" class="w-36 rounded-full">
                 <RouterLink :to="{name: 'profile', params:{'id': handleRequest ? user.created_by.id : user.id}}" class="text-xl md:text-sm lg:text-xl font-bold">{{ handleRequest ? user.created_by.name : user.name }}</RouterLink>
                 <div class="flex items-center justify-between w-full text-gray-600 text-sm md:text-xs lg:text-sm">
                     <span>{{ handleRequest ? user.created_by.friends.length : user.friends.length }} friends</span>

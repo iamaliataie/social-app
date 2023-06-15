@@ -22,6 +22,7 @@ const submitForm = async() => {
 
     await axios.post('api/login/', form)
     .then(res => {
+        console.log(res.data);
         userStore.setToken(res.data)
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.access;
         
@@ -33,7 +34,8 @@ const submitForm = async() => {
         .catch(error => console.log('authenticated user error: ', error))
     })
     .catch(error => {
-        errorMessage.value = 'Incorrect credentials'
+        console.log(error.response);
+        errorMessage.value = 'Inactive account or incorrect credentials'
     })
 }
 

@@ -1,8 +1,9 @@
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
+from django.contrib.auth.forms import PasswordChangeForm
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from .models import User, FriendshipRequest
 from .serializers import UserSerializer, FriendshipRequestSerializer
-from .forms import SignupForm
+from .forms import SignupForm, EditProfileForm
 from post.models import Post
 from post.serializers import PostSerializer
 
@@ -12,6 +13,7 @@ def authenticated_user(request):
         'id': request.user.id,
         'name': request.user.name,
         'email': request.user.email,
+        'avatar': request.user.get_avatar(),
     })
 
 
@@ -39,6 +41,44 @@ def profile(request, user_id):
         'friendship': friendship
     }
     return JsonResponse(context, safe=False)
+
+
+@api_view(['POST'])
+def edit_profile(request):
+    
+    form = EditProfileForm(request.POST, request.FILES, instance=request.user)
+    status = False
+    message = 'Something went wrong. Please try again!'
+    if form.is_valid():
+        form.save()
+        status = True
+        message = 'Your information updated successfully!'
+    else: print('failed')
+    return JsonResponse({
+        'status': status, 
+        'message': message, 
+        'info': { 
+            'name': request.user.name,
+            'email': request.user.email,
+            'avatar': request.user.get_avatar()
+            }
+        })
+
+
+@api_view(['POST'])
+def password_change(request):
+    
+    form = PasswordChangeForm(request.user, request.POST)
+    message = None
+    status = False
+    if form.is_valid():
+        message = 'Password changed successfully.'
+        status = True
+        form.save()
+    else:
+        message = form.errors.as_json()
+    
+    return JsonResponse({'status': status, 'message': message})
 
 
 @api_view(['GET'])
@@ -104,27 +144,37 @@ def friendship_handle(request, user_id, status):
 def signup(request):
     data = request.data
     user_exists = User.objects.filter(email=data['email']).first()
-    message = ''
+    message = None
     status = False
-    if not user_exists:
-        form = SignupForm({
-            'name': data.get('name'),
-            'email': data.get('email'),
-            'password1': data.get('password1'),
-            'password2': data.get('password2'),
-        })
-        
-        if form.is_valid():
-            form.save()
-            message = 'User registered successfully'
-            status = True
-        else:
-            print(form.errors)
-            message = 'Registration failed. Try again'
-            status = False
+    form = SignupForm({
+        'name': data.get('name'),
+        'email': data.get('email'),
+        'password1': data.get('password1'),
+        'password2': data.get('password2'),
+    })
+    
+    if form.is_valid():
+        user = form.save(commit=False)
+        user.is_active = False
+        user.save()
+        message = 'User registered successfully'
+        status = True
     else:
-        message = 'User with this email already exists'
+        message = form.errors.as_json()
         status = False
         
     return JsonResponse({'status': status, 'message': message})
 
+
+@api_view(['GET'])
+@authentication_classes([])
+@permission_classes([])
+def activate_account(request, user_id, user_email):
+    print('acctivation method')
+    user = User.objects.filter(pk=user_id, email=user_email).first()
+    if user:
+        user.is_active = True
+        user.save()
+        return HttpResponse('<h1>Account activated succssfully. Thank You!</h1>')
+    else:
+        return JsonResponse({'message': 'user not found'})

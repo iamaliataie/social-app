@@ -6,7 +6,7 @@ import { useToastStore } from '../stores/toast';
 
 const router = useRouter();
 const toastStore = useToastStore();
-const errorMessage = ref('');
+const errorMessage = ref([]);
 
 const form = reactive({
     name: '',
@@ -24,32 +24,36 @@ const validateEmail = (email) => {
   };
 
 const submitForm = async() => {
-    errorMessage.value = '';
+    errorMessage.value = [];
     if (form.name === '' || form.email === '' || form.password1 === '' || form.password2 === '') {
-        errorMessage.value = 'Fields cannot be empty';
+        errorMessage.value.push('Fields cannot be empty');
         return
     }
     else if (!validateEmail(form.email)) {
-        errorMessage.value = 'Invalid email address';
+        errorMessage.value.push('Invalid email address');
         return
     }
     else if (form.password1.length < 8) {
-        errorMessage.value = 'Password must be 8 characters at least';
+        errorMessage.value.push('Password must be 8 characters at least');
         return
     }
     else if (form.password1 != form.password2) {
-        errorMessage.value = 'Passwords do not match';
+        errorMessage.value.push('Passwords do not match');
         return
     }
 
     await axios.post('api/signup/', form)
     .then(res => {
-        if (!res.data.status) {
-            toastStore.showToast(res.data.message, 'bg-red-500');
-        }
-        else{
-            toastStore.showToast('Registration was succussfull.', 'bg-green-400');
-            router.push({name: 'login'})
+        if (res.data.status) {
+            toastStore.showToast(res.data.message, 'bg-green-500')
+        }else{
+            let messages = JSON.parse(res.data.message);
+            console.log(messages);
+            for (const key in messages) {
+                for (const val in  messages[key]){
+                    errorMessage.value.push(messages[key][val].message);
+                }
+            }
         }
     })
     .catch(error => {
@@ -65,7 +69,7 @@ const submitForm = async() => {
             <div class="bg-white rounded-lg flex flex-col space-y-6 p-10">
                 <h2 class="font-bold text-3xl">Signup</h2>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium, natus! Officia soluta nulla voluptatibus beatae. Est debitis eaque expedita temporibus.</p>
-                <p class="font-semibold">Already have an account? <a href="#" class="font-bold text-lg">Login here</a></p>
+                <p class="font-semibold">Already have an account? <RouterLink :to="{name: 'login'}" class="font-bold text-lg">Login here</RouterLink></p>
             </div>
         </div>
         <div class="md:col-span-2">
@@ -103,9 +107,11 @@ const submitForm = async() => {
                             placeholder="confirm password">
                         </div>
                     </div>
-                    <div class="text-sm text-red-500 mb-4">
-                        <span>{{ errorMessage }}</span>
-                    </div>
+                    <ul
+                    v-if="errorMessage" 
+                    class="text-sm text-red-500 mb-4">
+                        <li v-for="message in errorMessage">{{ message }}</li>
+                    </ul>
                     <button type="submit" class="w-fit p-3 bg-purple-500 rounded-md text-white">Signup</button>
                 </form>
             </div>

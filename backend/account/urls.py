@@ -4,11 +4,6 @@ from . import api
 
 urlpatterns = [
     path(
-        'signup/',
-        api.signup,
-        name='signup'
-    ),
-    path(
         'login/',
         TokenObtainPairView.as_view(),
         name='login'
@@ -29,6 +24,16 @@ urlpatterns = [
         name='profile'
     ),
     path(
+        'profile/edit/',
+        api.edit_profile,
+        name='edit_profile'
+    ),
+    path(
+        'profile/edit/password_change/',
+        api.password_change,
+        name='password_change'
+    ),
+    path(
         'profile/<uuid:user_id>/friends/',
         api.friends,
         name='friends'
@@ -42,5 +47,15 @@ urlpatterns = [
         'friendship_handle/<uuid:user_id>/<str:status>/',
         api.friendship_handle,
         name='friendship_handle'
+    ),
+    path(
+        'signup/',
+        api.signup,
+        name='signup'
+    ),
+    path(
+        'activate_account/<uuid:user_id>/<str:user_email>/',
+        api.activate_account,
+        name='activate_account'
     ),
 ]

@@ -31,7 +31,7 @@ const logout = () => {
         <RouterLink :to="{name: 'profile', params:{'id': userStore.user.id}}"
         v-if="userStore.user.isAuthenticated && userStore.user.id"
         class="hidden md:flex flex-col space-y-3 items-center">
-            <img src="../assets/images/self2.jpg" alt="" class="w-20 rounded-full">
+            <img :src="userStore.user.avatar" alt="" class="w-20 rounded-full">
             <h1>{{ userStore.user.name }}</h1>
         </RouterLink>
         <div 

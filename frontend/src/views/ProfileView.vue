@@ -63,8 +63,9 @@ watch(route, () => {
         <div class="md:col-span-2">
             <div v-if="user != null" class="bg-white rounded-md p-4">
                 <div class="flex flex-col space-y-4 items-center">
-                    <img src="../assets/images/self2.jpg" alt="user" class="rounded-full">
+                    <img :src="user.get_avatar" alt="user" class="rounded-full">
                     <h1 class="text-3xl font-bold">{{ user.name }}</h1>
+                    <p v-if="userStore.user.id == user.id" class="text-lg">{{ user.email }}</p>
                     <div class="flex items-center justify-between w-full text-gray-600">
                         <RouterLink :to="{name: 'friends', params: {'id': user.id}}">{{ user.friends.length }} friends</RouterLink>
                         <span>{{ userStore.profilePosts.length }} posts</span>
@@ -83,6 +84,13 @@ watch(route, () => {
                             <button class="bg-blue-500 text-white w-4/6 px-3 py-2 rounded-md">Friends</button>
                             <button @click="friendshipHandle(user.id, 'remove')" class="bg-red-500 text-white w-2/6 px-3 py-2 rounded-md">Remove</button>
                         </div>
+                    </div>
+                    <div v-if="user.id === userStore.user.id" class="w-full flex">
+                        <RouterLink :to="{name: 'editprofile', params: {'id': user.id}}"
+                        class="bg-blue-500 py-2 px-3 rounded-md w-full text-white text-center"
+                        >
+                            Edit Profile
+                        </RouterLink>
                     </div>
                 </div>
             </div>

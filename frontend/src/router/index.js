@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import PostDetailView from '../views/PostDetailView.vue'
 import ProfileView from '../views/ProfileView.vue'
+import EditProfileView from '../views/EditProfileView.vue'
+import PasswordChangeView from '../views/PasswordChangeView.vue'
 import FriendsView from '../views/FriendsView.vue'
 import SearchView from '../views/SearchView.vue'
 import ChatView from '../views/ChatView.vue'
@@ -25,6 +27,16 @@ const router = createRouter({
       path: '/profile/:id',
       name: 'profile',
       component: ProfileView
+    },
+    {
+      path: '/profile/:id/edit',
+      name: 'editprofile',
+      component: EditProfileView
+    },
+    {
+      path: '/profile/:id/edit/password_change',
+      name: 'password_change',
+      component: PasswordChangeView
     },
     {
       path: '/profile/:id/friends',

@@ -9,6 +9,7 @@ export const useUserStore = defineStore('user', () => {
     email: null,
     access: null,
     refresh: null,
+    avatar: null,
     isAuthenticated: false
   })
   const posts = ref([])
@@ -19,6 +20,7 @@ export const useUserStore = defineStore('user', () => {
       user.id = localStorage.getItem('user.id');
       user.name = localStorage.getItem('user.name');
       user.email = localStorage.getItem('user.email');
+      user.avatar = localStorage.getItem('user.avatar');
       user.access = localStorage.getItem('user.access');
       user.refresh = localStorage.getItem('user.refresh');
       user.isAuthenticated = true;
@@ -38,9 +40,11 @@ export const useUserStore = defineStore('user', () => {
     user.id = data.id;
     user.name = data.name;
     user.email = data.email;
+    user.avatar = data.avatar;
     localStorage.setItem('user.id', user.id);
     localStorage.setItem('user.name', user.name);
     localStorage.setItem('user.email', user.email);
+    localStorage.setItem('user.avatar', user.avatar);
   }
 
   const removeToken = () => {

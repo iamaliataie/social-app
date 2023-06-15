@@ -18,10 +18,15 @@ def post_list(request):
 @api_view(['POST'])
 def post_create(request):
     form = request.data
+    print(form)
+    print(request.POST)
+    print(request.FILES)
     new_post = Post.objects.create(
         body=form['body'],
+        image=form['image'],
         created_by=request.user
     )
+    print(new_post)
     if new_post:
         serializer = PostSerializer(new_post)
         return JsonResponse(serializer.data, safe=False)
