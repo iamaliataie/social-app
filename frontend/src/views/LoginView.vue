@@ -22,7 +22,6 @@ const submitForm = async() => {
 
     await axios.post('api/login/', form)
     .then(res => {
-        console.log(res.data);
         userStore.setToken(res.data)
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.access;
         

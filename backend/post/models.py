@@ -1,6 +1,6 @@
 import uuid
 from django.db import models
-from account.models import User
+from account.models import User, FriendshipRequest
 
 from django.utils import timezone, timesince
 
@@ -28,6 +28,7 @@ class Post(models.Model):
         if self.image:
             return f'http://127.0.0.1:8000{self.image.url}'
         else: return ''
+  
     
 class Comment(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
@@ -40,6 +41,26 @@ class Comment(models.Model):
 
     def __str__(self):
         return  '{} - {}'.format(self.created_by.name,self.body[:30])
+    
+    def created_at_formatted(self):
+        return timesince.timesince(self.created_at)
+    
+    
+class Notification(models.Model):
+    id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
+    body = models.CharField(max_length=255)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, blank=True, null=True)
+    request = models.ForeignKey(FriendshipRequest, on_delete=models.CASCADE, blank=True, null=True)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications_by')
+    created_for = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications_for')
+    is_read = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=timezone.now)
+    
+    class Meta:
+        ordering = ['created_at',]
+
+    def __str__(self):
+        return  self.body
     
     def created_at_formatted(self):
         return timesince.timesince(self.created_at)

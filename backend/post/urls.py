@@ -27,4 +27,9 @@ urlpatterns = [
         api.like_post,
         name="like_post"
     ),
+    path(
+        "notifications/",
+        api.notifications,
+        name="notifications"
+    ),
 ]

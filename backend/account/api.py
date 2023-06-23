@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view, authentication_classes, permissi
 from .models import User, FriendshipRequest
 from .serializers import UserSerializer, FriendshipRequestSerializer
 from .forms import SignupForm, EditProfileForm
-from post.models import Post
+from post.models import Post, Notification
 from post.serializers import PostSerializer
 
 @api_view(['GET'])
@@ -101,6 +101,12 @@ def friendship_create(request, user_id):
     user = User.objects.filter(pk=user_id).first()
     friendship = FriendshipRequest.objects.create(created_by=request.user, received_by=user)
     serializer = FriendshipRequestSerializer(friendship)
+    Notification.objects.create(
+        body=f'{request.user.name} sent you a friendship request.',
+        request=friendship,
+        created_by=request.user,
+        created_for=friendship.received_by,
+    )
     
     return JsonResponse(serializer.data, safe=False)
 
@@ -114,6 +120,11 @@ def friendship_handle(request, user_id, status):
         if status == 'accept':
             request.user.friends.add(user)
             friendship_request.delete()
+            Notification.objects.create(
+                body=f'{friendship_request.received_by} accepted your friendship request.',
+                created_by=friendship_request.received_by,
+                created_for=friendship_request.created_by,
+            )
             friendship = 3
         else:
             friendship_request.delete()
@@ -136,6 +147,17 @@ def friendship_handle(request, user_id, status):
         'friends': friends_serializer.data,
         'requests': requests_serializer.data,
         }, safe=False)
+
+
+@api_view(['GET'])
+def friend_suggesstions(request):
+    suggesstion_list = list()
+    for friend in request.user.friends.all():
+        for f in friend.friends.all():
+            if f != request.user and f not in request.user.friends.all() and f not in suggesstion_list:
+                suggesstion_list.append(f)
+    serializer = UserSerializer(suggesstion_list, many=True)
+    return JsonResponse(serializer.data, safe=False)
 
 
 @api_view(['POST'])

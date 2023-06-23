@@ -49,6 +49,11 @@ urlpatterns = [
         name='friendship_handle'
     ),
     path(
+        'friend_suggesstions/',
+        api.friend_suggesstions,
+        name='friend_suggesstions'
+    ),
+    path(
         'signup/',
         api.signup,
         name='signup'

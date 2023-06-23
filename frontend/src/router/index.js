@@ -5,6 +5,7 @@ import ProfileView from '../views/ProfileView.vue'
 import EditProfileView from '../views/EditProfileView.vue'
 import PasswordChangeView from '../views/PasswordChangeView.vue'
 import FriendsView from '../views/FriendsView.vue'
+import NotificationsView from '../views/NotificationsView.vue'
 import SearchView from '../views/SearchView.vue'
 import ChatView from '../views/ChatView.vue'
 import LoginView from '../views/LoginView.vue'
@@ -42,6 +43,11 @@ const router = createRouter({
       path: '/profile/:id/friends',
       name: 'friends',
       component: FriendsView
+    },
+    {
+      path: '/notifications',
+      name: 'notifications',
+      component: NotificationsView
     },
     {
       path: '/search',
