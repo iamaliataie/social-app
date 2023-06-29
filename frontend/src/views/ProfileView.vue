@@ -2,12 +2,13 @@
 import axios from 'axios';
 import FeedList from '../components/FeedList.vue';
 import FriendSuggestionsVue from '../components/FriendSuggestions.vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { onMounted, ref, watch } from 'vue';
 import { useUserStore } from '../stores/user';
 const userStore = useUserStore()
 
 const route = useRoute();
+const router = useRouter();
 const user = ref(null);
 const friendship = ref(0)
 
@@ -52,6 +53,15 @@ const friendshipHandle = (userId, status) => {
     })
 }
 
+const directMessage = () => {
+    axios.get(`api/conversations/create_get_conversation/${user.value.id}/`)
+    .then(res => {
+        router.push({name: 'chat'})
+    })
+    .catch(error => console.log(error))
+}
+
+
 watch(route, () => {
     getUser();
 }, { flush: 'pre', immediate: true, deep: true })
@@ -91,6 +101,14 @@ watch(route, () => {
                         >
                             Edit Profile
                         </RouterLink>
+                    </div>
+                    <div v-if="user.id !== userStore.user.id" class="w-full flex">
+                        <button 
+                        @click="directMessage"
+                        class="bg-blue-500 py-2 px-3 rounded-md w-full text-white text-center"
+                        >
+                            Direct Message
+                        </button>
                     </div>
                 </div>
             </div>

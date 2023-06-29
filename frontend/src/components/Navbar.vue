@@ -23,7 +23,7 @@ const logout = () => {
         >
             <a href="#" class="md:hidden">Profile</a>
             <router-link :to="{name: 'home'}" class="hidden md:block">Home</router-link>
-            <a href="#">Messages</a>
+            <RouterLink :to="{name: 'chat'}">Messages</RouterLink>
             <RouterLink :to="{name: 'notifications'}">Notifications</RouterLink>
             <RouterLink :to="{name: 'search'}">Search</RouterLink>
             <button @click="logout" class="text-left">Logout</button>
