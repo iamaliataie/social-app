@@ -72,7 +72,6 @@ def like_post(request, post_id):
     else:
         post.likes.remove(request.user)
         post.save()
-    
     serializer = PostSerializer(post)
     return JsonResponse(serializer.data, safe=False)
 
