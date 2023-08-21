@@ -44,7 +44,8 @@ const friendshipHandle = (userId, status) => {
         friendship.value = res.data.friendship;
         if (res.data.friendship == 3){
             user.value.friends.push('_')
-        }else{
+        }
+        else{
             user.value.friends.pop();
         }
     })
