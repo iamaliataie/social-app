@@ -53,7 +53,6 @@ def comment_create(request, post_id):
             created_by=request.user,
             created_for=post.created_by,
         )
-        
     serializer = CommentSerializer(comment)    
     return JsonResponse(serializer.data, safe=False)
 
