@@ -26,7 +26,6 @@ def post_create(request):
     if new_post:
         serializer = PostSerializer(new_post)
         return JsonResponse(serializer.data, safe=False)
-    
     return JsonResponse({'status': False})
 
 
