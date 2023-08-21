@@ -42,7 +42,6 @@ def comment_create(request, post_id):
         body=request.data['body'],
         created_by=request.user
     )
-    
     if comment:
         post.comments.add(comment)
         post.save()
