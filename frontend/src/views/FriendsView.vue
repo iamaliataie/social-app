@@ -23,7 +23,6 @@ const friendshipHandle = (userId, status) => {
     })
 }
 
-
 onMounted(() => {
     axios.get(`api/profile/${route.params.id}/friends/`)
     .then(res => {
