@@ -33,7 +33,6 @@ def post_create(request):
 def post_detail(request, post_id):
     post = Post.objects.get(pk=post_id)
     serializer = PostSerializer(post)
-    
     return JsonResponse(serializer.data, safe=False)
 
 
