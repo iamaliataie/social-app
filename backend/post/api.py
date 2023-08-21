@@ -47,7 +47,6 @@ def comment_create(request, post_id):
     if comment:
         post.comments.add(comment)
         post.save()
-        
         if request.user is not post.created_by:
             Notification.objects.create(
             body=f'{request.user.name} commented on your post {post.body[:10]}',
