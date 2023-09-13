@@ -6,7 +6,6 @@ import { useToastStore } from '../stores/toast';
 
 const userStore = useUserStore();
 const toastStore = useToastStore();
-
 const form = reactive({
     body: '',
     image: null
@@ -19,7 +18,6 @@ const setFile = (el) => {
 }
 
 const handleSubmit = () => {
-    
     axios.post('api/posts/post_create/', form, {
         headers:{
             "Content-Type": "multipart/form-data",
@@ -35,7 +33,6 @@ const handleSubmit = () => {
         toastStore.showToast(error.message, 'bg-red-500');
     })
 }
-
 </script>
 
 <template>
