@@ -1,8 +1,6 @@
 <script setup>
 import { reactive } from 'vue';
-
 const props = defineProps(['people', 'title', 'handleRequest'])
-
 </script>
 <template>
     <div class="bg-white p-4 rounded-lg">
