@@ -3,9 +3,7 @@ import axios from 'axios';
 import { onMounted, ref } from 'vue';
 
 const suggessions = ref([])
-
 const getFriendSuggesstions = () => {
-
     axios.get('api/friend_suggesstions/')
     .then(res => {
         suggessions.value = res.data
