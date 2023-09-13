@@ -1,5 +1,4 @@
 <script setup>
-
 import { reactive } from 'vue';
 import axios from 'axios';
 import SearchBar from '../components/SearchBar.vue'
@@ -22,8 +21,8 @@ const handleClick = (query) => {
         console.log(error);
     })
 }
-
 </script>
+
 <template>
     <div class="grid grid-cols-1 md:grid-cols-6 gap-4">
         <div class="md:col-span-4">
