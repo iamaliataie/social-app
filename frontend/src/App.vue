@@ -8,7 +8,6 @@ import Toast from './components/Toast.vue';
 const userStore = useUserStore();
 
 onMounted(() => {
-  
   userStore.initStore();
   if(userStore.user.access){
     axios.defaults.headers.common['Authorization'] = 'Bearer ' + userStore.user.access;
@@ -16,7 +15,6 @@ onMounted(() => {
   else {
     axios.defaults.headers.common['Authorization'] = '';
   }
-  
 })
 
 </script>
