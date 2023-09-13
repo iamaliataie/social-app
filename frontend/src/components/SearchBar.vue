@@ -1,14 +1,11 @@
 <script setup>
 import { ref } from 'vue';
-
 const emit = defineEmits(['actionCapture'])
-
 const query = ref('')
 
 const handleSubmit = () => {
     emit('actionCapture', query.value)
 }
-
 </script>
 
 <template>
