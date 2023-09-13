@@ -62,7 +62,6 @@ const directMessage = () => {
     .catch(error => console.log(error))
 }
 
-
 watch(route, () => {
     getUser();
 }, { flush: 'pre', immediate: true, deep: true })
